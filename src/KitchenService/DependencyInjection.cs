@@ -1,11 +1,8 @@
-﻿using MassTransit;
+using KitchenService.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using OrderService.Abstractions;
-using OrderService.Consumers;
-using OrderService.Data;
-using OrderService.Services;
 
-namespace OrderService;
+namespace KitchenService;
 
 public static class DependencyInjection
 {
@@ -18,7 +15,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddData(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<OrderDbContext>(options =>
+        services.AddDbContext<KitchenDbContext>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
@@ -26,9 +23,9 @@ public static class DependencyInjection
         return services;
     }
 
-    public static IServiceCollection AddServices(this IServiceCollection services)
+    /*public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IOrdersService, OrdersService>();
+        services.AddScoped<IProductsService, ProductsService>();
 
         return services;
     }
@@ -37,7 +34,7 @@ public static class DependencyInjection
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<InventoryValidatedConsumer>();
+            x.AddConsumer<OrderCreatedConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -47,5 +44,5 @@ public static class DependencyInjection
         });
 
         return services;
-    }
+    }*/
 }

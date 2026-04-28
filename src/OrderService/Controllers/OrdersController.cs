@@ -12,7 +12,7 @@ public class OrdersController(IOrdersService ordersService) : ControllerBase
     public async Task<IActionResult> Create(OrderCreationDto order)
     {
         await ordersService.Create(order);
-        
+
         return Created("", order);
     }
 }

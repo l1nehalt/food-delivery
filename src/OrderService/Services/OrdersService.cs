@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using Contracts.Dtos;
+﻿using Contracts.Dtos;
 using Contracts.Orders;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -22,13 +21,13 @@ public class OrdersService(OrderDbContext dbContext, IPublishEndpoint publishEnd
             TotalPrice = orderCreationDto.OrderItems.Sum(o => o.Price * o.Quantity),
             OrderItems = orderCreationDto.OrderItems.Select(x => new OrderItem
             {
-              ProductId = x.ProductId,
-              ProductName = x.ProductName,
-              Price = x.Price,
-              Quantity = x.Quantity
+                ProductId = x.ProductId,
+                ProductName = x.ProductName,
+                Price = x.Price,
+                Quantity = x.Quantity
             }).ToList()
         };
-        
+
         await dbContext.AddAsync(order);
         await dbContext.SaveChangesAsync();
 
@@ -41,17 +40,17 @@ public class OrdersService(OrderDbContext dbContext, IPublishEndpoint publishEnd
                 Quantity = x.Quantity
             }).ToList()
         };
-        
+
         await publishEndpoint.Publish(eventMessage);
     }
 
     public async Task<Order?> GetById(Guid orderId)
     {
-       var order = await dbContext.Orders
+        var order = await dbContext.Orders
             .Include(x => x.OrderItems)
             .FirstOrDefaultAsync(x => x.Id == orderId);
-       
-       return order;
+
+        return order;
     }
 
     public async Task Update(Order order)

@@ -10,15 +10,15 @@ public class InventoryValidatedConsumer(IOrdersService ordersService) : IConsume
     public async Task Consume(ConsumeContext<InventoryValidatedEvent> context)
     {
         var order = await ordersService.GetById(context.Message.OrderId);
-        
-        bool allAvailableItems = order.OrderItems
+
+        var allAvailableItems = order.OrderItems
             .All(x => context.Message.AvailableProducts
                 .Any(p => p.Id == x.ProductId && p.IsAvailable));
 
-        order.Status = allAvailableItems 
-            ? OrderStatus.Confirmed 
+        order.Status = allAvailableItems
+            ? OrderStatus.Confirmed
             : OrderStatus.Cancelled;
-        
+
         await ordersService.Update(order);
     }
 }

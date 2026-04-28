@@ -1,5 +1,4 @@
 ﻿using CatalogService.Abstractions;
-using CatalogService.Services;
 using Contracts.Catalog;
 using Contracts.Dtos;
 using Contracts.Orders;
