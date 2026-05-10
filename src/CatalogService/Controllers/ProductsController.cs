@@ -8,9 +8,9 @@ namespace CatalogService.Controllers;
 public class ProductsController(IProductsService productsService) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
-        var products = await productsService.GetProducts();
+        var products = await productsService.GetAll();
 
         return Ok(products);
     }
@@ -18,7 +18,7 @@ public class ProductsController(IProductsService productsService) : ControllerBa
     [HttpPost("validate")]
     public async Task<IActionResult> Validate([FromBody] List<Guid> guids)
     {
-        var products = await productsService.CheckProductsAvailability(guids);
+        var products = await productsService.CheckAvailability(guids);
 
         return Ok(products);
     }

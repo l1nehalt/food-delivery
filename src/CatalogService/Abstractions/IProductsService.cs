@@ -4,7 +4,7 @@ namespace CatalogService.Abstractions;
 
 public interface IProductsService
 {
-    Task<List<ProductDto>> GetProducts();
+    Task<List<ProductDto>> GetAll();
 
-    Task<List<ProductDto>> CheckProductsAvailability(List<Guid> guids);
+    Task<List<ProductDto>> CheckAvailability(List<Guid> guids);
 }

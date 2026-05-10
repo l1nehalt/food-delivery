@@ -8,7 +8,7 @@ namespace CatalogService.Services;
 
 public class ProductsService(CatalogDbContext dbContext) : IProductsService
 {
-    public async Task<List<ProductDto>> GetProducts()
+    public async Task<List<ProductDto>> GetAll()
     {
         var products = await dbContext.Products
             .AsNoTracking()
@@ -19,7 +19,7 @@ public class ProductsService(CatalogDbContext dbContext) : IProductsService
             .ToList();
     }
 
-    public async Task<List<ProductDto>> CheckProductsAvailability(List<Guid> guids)
+    public async Task<List<ProductDto>> CheckAvailability(List<Guid> guids)
     {
         var products = await dbContext.Products
             .AsNoTracking()

@@ -14,7 +14,7 @@ public class OrderCreatedConsumer(IProductsService productsService) : IConsumer<
             .Select(x => x.ProductId)
             .ToList();
 
-        var availableProducts = await productsService.CheckProductsAvailability(ids);
+        var availableProducts = await productsService.CheckAvailability(ids);
 
         var productDtos = availableProducts
             .Select(x => new ProductItemDto

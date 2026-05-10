@@ -1,3 +1,5 @@
+using KitchenService.Abstractions;
+using KitchenService.Consumers;
 using KitchenService.Data;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +25,9 @@ public static class DependencyInjection
         return services;
     }
 
-    /*public static IServiceCollection AddServices(this IServiceCollection services)
+    public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddScoped<IProductsService, ProductsService>();
+        services.AddScoped<IKitchenService, Services.KitchenService>();
 
         return services;
     }
@@ -34,7 +36,7 @@ public static class DependencyInjection
     {
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<OrderCreatedConsumer>();
+            x.AddConsumer<OrderConfirmedConsumer>();
 
             x.UsingRabbitMq((context, cfg) =>
             {
@@ -44,5 +46,5 @@ public static class DependencyInjection
         });
 
         return services;
-    }*/
+    }
 }

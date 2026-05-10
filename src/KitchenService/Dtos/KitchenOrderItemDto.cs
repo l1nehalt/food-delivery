@@ -1,6 +1,6 @@
-namespace KitchenService.Data.Entities;
+namespace KitchenService.Dtos;
 
-public class KitchenOrderItem
+public class KitchenOrderItemDto
 {
     public Guid Id { get; set; }
 
@@ -11,8 +11,4 @@ public class KitchenOrderItem
     public int Quantity { get; set; }
 
     public string Comment { get; set; } = string.Empty;
-
-    public Guid KitchenOrderId { get; set; }
-
-    public KitchenOrder? KitchenOrder { get; set; }
 }

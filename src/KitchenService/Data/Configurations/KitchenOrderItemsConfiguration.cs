@@ -9,7 +9,7 @@ public class KitchenOrderItemsConfiguration : IEntityTypeConfiguration<KitchenOr
     public void Configure(EntityTypeBuilder<KitchenOrderItem> builder)
     {
         builder.HasKey(x => x.Id);
-        
+
         builder
             .HasOne(x => x.KitchenOrder)
             .WithMany(x => x.KitchenOrderItems)

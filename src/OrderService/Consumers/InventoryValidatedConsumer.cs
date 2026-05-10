@@ -1,4 +1,6 @@
 ﻿using Contracts.Catalog;
+using Contracts.Dtos;
+using Contracts.Orders;
 using MassTransit;
 using OrderService.Abstractions;
 using OrderService.Data.Entities;
@@ -15,9 +17,25 @@ public class InventoryValidatedConsumer(IOrdersService ordersService) : IConsume
             .All(x => context.Message.AvailableProducts
                 .Any(p => p.Id == x.ProductId && p.IsAvailable));
 
-        order.Status = allAvailableItems
-            ? OrderStatus.Confirmed
-            : OrderStatus.Cancelled;
+        if (allAvailableItems)
+        {
+            order.Status = OrderStatus.Confirmed;
+
+            await context.Publish(new OrderConfirmedEvent
+            {
+                OrderId = order.Id,
+                ConfirmedItems = order.OrderItems.Select(x => new ConfirmedItemDto
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.ProductName,
+                    Quantity = x.Quantity
+                }).ToList()
+            });
+        }
+        else
+        {
+            order.Status = OrderStatus.Cancelled;
+        }
 
         await ordersService.Update(order);
     }
